@@ -1,0 +1,244 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+:root {
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size) * .9);
+}
+
+body {
+    margin: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* header styles */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.gameplay-mode {
+    font-size: 3rem;
+    padding: .25em .5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    padding: .25em .5em;
+}
+
+.decision-button-container {
+    display: none;
+    padding: .25em .5em;
+}
+
+.decision-button-container.show {
+    display: inline-block;
+    padding: .25em .5em;
+}
+
+
+
+button.btn {
+    display: inline-block;
+    margin: 0;
+    padding: 0.75rem 1rem;
+	border: 0;
+	border-radius: 0.217rem;
+	background-color: #aaa;
+	color: #fff;
+	text-decoration: none;
+	font-weight: 700;
+	font-size: 1rem;
+    line-height: 1.5;
+	cursor: pointer;
+}
+
+button#start {
+    background-color: tomato;
+}
+
+button#start:hover {
+    background-color: rgb(165, 65, 47);
+}
+
+
+button.btn:hover {
+	background-color: #000000;
+	color: #ffff;
+}
+
+button.btn.active {
+	background-color: #000000;
+	color: #ffff;
+}
+
+.gameplay-message {
+    font-size: 2rem;
+}
+
+.ingame-controllers {
+    display: none;
+}
+
+.ingame-controllers.show {
+    display: inline-block;
+    padding: .25em .5em;
+}
+
+button.btn.undo-move {
+    background-color: orange;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+button.btn.undo-move:hover {
+    background-color: orangered;
+}
+
+/* style playing board */
+.board {
+    width: 100vw;
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3, auto);
+}
+
+/* style cells */
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid  black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+/* remove top border of the board */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+
+/* remove left border from the board */
+.cell:nth-child(3n + 1) {
+    border-left: none;
+}
+
+/* remove right border from the board */
+.cell:nth-child(3n + 3) {
+    border-right: none;
+}
+
+/* remove bottom border from the board */
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+    border-bottom: none;
+}
+
+/* style X shape */
+/* apply hover efect with x when .x is applied to .board */
+
+.cell.x::before,
+.cell.x::after,
+.cell.circle::before {
+    background-color: black;
+}
+
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+    background-color: darkgray;
+}
+
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after  {
+    content: '';
+    position: absolute;
+    width: calc(var(--mark-size) * .10);
+    height: var(--mark-size);
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+    transform: rotate(45deg);
+}
+
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+}
+
+/* style O shape */
+/* apply hover efect with circle when .circle is applied to .board */
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;    
+}
+
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+    width: var(--mark-size);
+    height: var(--mark-size);
+}
+
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    width: calc(var(--mark-size) * .8);
+    height: calc(var(--mark-size) * .8);
+    background-color: white;
+}
+
+/* winning screen */
+.winning-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.685);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+    flex-direction: column;
+}
+
+.winning-message button {
+    font-size: 3rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+.winning-message button:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+
+.winning-message.show {
+    display: flex;
+}
