@@ -279,15 +279,14 @@ function removeMark(cell, currentOnTurn) {
 
 function bestAiMove(origBoard) {
     // return index of best move
-    let AI_CELL_ID = minmax(origBoard, CIRCLE).index;
+    let AI_CELL_ID = minmax(origBoard, CIRCLE, 0).index;
     let aiSelectedCell = document.getElementById(AI_CELL_ID); 
     aiSelectedCell.removeEventListener('click', handleClickOnCell);
-   
     return aiSelectedCell;
 }
 
-function minmax (board, player) { 
-    // later check how it will be if we pass in also player
+function minmax (board, player, depth) {
+    // check how it will be if we pass in also player
     isGameOver(board);   
     let availSpots = [...board].filter(cell => {
         return cell !='x' && cell !='circle';        
@@ -295,10 +294,10 @@ function minmax (board, player) {
     
     if (checkForNewBoardWin(X, board)){
         // if player wins
-        return {score: -10}
+        return {score: depth - 10 }
     } else if (checkForNewBoardWin(CIRCLE, board)) {
         // if AI - Computer wins
-        return {score: +10}
+        return {score: 10 - depth }
     } else if (availSpots.length === 0) {
         // if tie
         return {score: 0}
@@ -313,10 +312,10 @@ function minmax (board, player) {
         board[availSpots[i]] = player; 
 
         if (player == CIRCLE) {
-            let result = minmax(board, X);
+            let result = minmax(board, X, depth + 1);
             value.score = result.score;
         } else {
-            let result = minmax(board, CIRCLE);
+            let result = minmax(board, CIRCLE, depth + 1);
             value.score = result.score;
         }
         board[availSpots[i]] = value.index;
